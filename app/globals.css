@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+/* 1) Activer Tailwind v4 */
+@import "tailwindcss";
+
+/* 2) Importer la font Google */
+
+/* 3) Définir tes variables globales */
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+
+  /* Fonts personnalisées */
+  --font-title: 'Londrina Solid', cursive;
+  --font-body: 'Londrina Solid', cursive;
+}
+
+/* Mode sombre */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+/* Tokens Tailwind v4 */
+@theme inline {
+  --font-title: var(--font-roboto); /* Titres */
+  --font-body: var(--font-roboto);  /* Texte courant */
+}
+
+/* 5) Styles globaux */
+/* Style global */
+body {
+  @apply font-body text-gray-900 bg-white antialiased;
+  font-weight: 400; /* Regular par défaut */
+}
+
+
+
