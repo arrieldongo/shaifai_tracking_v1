@@ -24,8 +24,9 @@ export default function CreaPage() {
   return (
     <main className="max-w-6xl mx-auto p-6">
       <header className="mb-8">
-        <h1 className="text-3xl md:text-4xl font-black tracking-tight">shaifai créa</h1>
-        <p className="text-slate-600 mt-1">Affiches réalisées par des graphistes pro</p>
+        <h1 className="text-4xl md:text-7xl font-black tracking-tighter">crréa</h1>
+        <p className="font-gray-700 text-2xl mt-1 whitespace-nowrap">une seule question</p>
+        <p className="font-black text-4xl mt-1 tracking-tighter whitespace-nowrap">Quel genre d'affiche voulez vous ?</p>
       </header>
 
       {images.length === 0 ? (
