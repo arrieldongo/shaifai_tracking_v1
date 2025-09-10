@@ -1,5 +1,11 @@
+// app/crréa/page.tsx (ou src/app/crréa/page.tsx)
+// Pinterest-like masonry, 2 colonnes sur mobile, CTA améliorés,
+// header avec dégradés (orange, noir, beige) + "Bienvenue chez Crréa".
+
 import fs from 'fs';
 import path from 'path';
+import { FaWhatsapp } from 'react-icons/fa';
+import CreaMasonry from '@/components/CreaMasonry';
 
 function listCreas(): string[] {
   try {
@@ -22,44 +28,63 @@ export default function CreaPage() {
   };
 
   return (
-    <main className="max-w-6xl mx-auto p-6">
-      <header className="mb-8">
-        <h1 className="text-4xl md:text-7xl font-black tracking-tighter">crréa</h1>
-        <p className="font-gray-700 text-2xl mt-1 whitespace-nowrap">une seule question</p>
-        <p className="font-black text-4xl mt-1 tracking-tighter whitespace-nowrap">Quel genre d'affiche voulez vous ?</p>
-      </header>
-
-      {images.length === 0 ? (
-        <p className="text-sm text-slate-600">Aucune affiche trouvée dans <code>public/crrea</code>.</p>
-      ) : (
-        <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 [column-fill:_balance]"><div className="hidden" />
-          {images.map((src, i) => (
-            <div key={src} className="mb-4 break-inside-avoid rounded-xl overflow-hidden border bg-white shadow-sm">
-              <div className="relative">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={src} alt={`crea-${i}`} className="w-full h-auto object-cover" />
-                <a
-                  href={wa(src)}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="absolute bottom-2 right-2 text-xs px-3 py-1.5 rounded bg-black/80 text-white hover:bg-black"
-                >
-                  comme ça
-                </a>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-
-      <div className="mt-6 text-center text-lg font-semibold">Vous voulez un crréa…</div>
-
-      <div className="mt-8 text-center">
-        <a href={wa()} target="_blank" rel="noreferrer" className="inline-block text-sm px-4 py-2 rounded bg-black text-white">
-          Nous écrire sur WhatsApp
+    <main className="max-w-[1200px] mx-auto px-4 md:px-6 py-8">
+      <div className="mb-4">
+        <a href="/" className="inline-flex items-center gap-2 text-sm px-3 py-1.5 rounded-lg border hover:bg-gray-50">
+          <span>←</span>
+          <span>Retour</span>
         </a>
       </div>
+      {/* Header */}
+      <header className="mb-8 sm:mb-12">
+        <div className="flex flex-col items-center justify-center text-center">
+          <p className="-m-1.5 text-xl md:text-2xl text-gray-300 font-extrabold tracking-tighter whitespace-nowrap">
+            Bienvenue chez
+          </p>
+          <span
+            className="text-8xl bg-clip-text text-transparent font-extrabold tracking-tighter whitespace-nowrap"
+            style={{ backgroundImage: 'linear-gradient(90deg,#f4762d,#ffd78a)' }}
+          >
+            Crréa
+          </span>
+          <h1
+            className="text-4xl md:text-6xl font-black tracking-tighter mt-8"
+            style={{
+              WebkitTextFillColor: 'transparent',
+              backgroundImage: 'linear-gradient(90deg,#FB923C,#111827)',
+              WebkitBackgroundClip: 'text',
+              backgroundClip: 'text',
+            }}
+          >
+            Quel genre d'affiche voulez vous ?
+          </h1>
+          <p className="text-base sm:text-lg text-gray-500 mt-3 max-w-2xl tracking-tighter">
+            Inspirez-vous, cliquez, et commandez la vôtre en un message.
+          </p>
+        </div>
+
+      </header>
+
+      {/* Masonry façon Pinterest + Lightbox (client) */}
+      <CreaMasonry images={images} />
+
+      {/* Call-to-action global */}
+      <div className="mt-10 sm:mt-12 text-center">
+        <a
+          href={wa()}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center gap-2 rounded-full bg-[#f4762d] text-white px-5 sm:px-6 py-3 text-sm sm:text-base font-semibold shadow-md hover:shadow-lg hover:brightness-105"
+        >
+          <FaWhatsapp className="text-white/90" />
+          Ajouter mes crréas
+        </a>
+      </div>
+
+      {/* Notes: */}
+      {/* - Masonry via CSS columns : 2 colonnes sur mobile, 3 en md, 4 en xl. */}
+      {/* - Chaque carte a un overlay tag et un CTA WhatsApp en pill. */}
+      {/* - Header : dégradé orange→noir→beige sur la question, dégradé vert→indigo sur "Crréa". */}
     </main>
   );
 }
-

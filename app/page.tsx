@@ -14,7 +14,8 @@ export default function Home() {
         <div className="text-4xl font-extrabold tracking-tighter text-[#111827]">shaifai</div>
         <nav className="hidden md:flex items-center gap-6 text-sm text-[#111827]">
           <a href="/" className="hover:opacity-80">Accueil</a>
-          <a href="#services" className="hover:opacity-80">Nos services</a>
+          {/* Smooth scroll to services without hash */}
+          <SmoothScrollLink targetId="services" className="hover:opacity-80">Nos services</SmoothScrollLink>
           <a href="https://wa.me/2250799239383?text=%C2%AB%20Ajouter%20mon%20service%20sur%20shaifai%20%C2%BB" target="_blank" rel="noreferrer" className="hover:opacity-80">Ajouter son service</a>
           <a href="https://wa.me/2250799239383" target="_blank" rel="noreferrer" className="hover:opacity-80">Contact</a>
         </nav>
@@ -24,20 +25,17 @@ export default function Home() {
             <summary className="list-none inline-flex items-center rounded-full border border-[#111827] text-[#111827] px-4 py-2 text-sm font-semibold cursor-pointer">Menu</summary>
             <div className="absolute right-0 mt-2 w-56 rounded-xl border bg-white shadow-lg p-2 text-sm">
               <a href="/" className="block px-3 py-2 rounded hover:bg-gray-50">Accueil</a>
-              <a href="#services" className="block px-3 py-2 rounded hover:bg-gray-50">Nos services</a>
+              <SmoothScrollLink targetId="services" className="block px-3 py-2 rounded hover:bg-gray-50">Nos services</SmoothScrollLink>
               <a href="https://wa.me/2250799239383?text=%C2%AB%20Ajouter%20mon%20service%20sur%20shaifai%20%C2%BB" target="_blank" rel="noreferrer" className="block px-3 py-2 rounded hover:bg-gray-50">Ajouter son service</a>
               <a href="https://wa.me/2250799239383" target="_blank" rel="noreferrer" className="block px-3 py-2 rounded hover:bg-gray-50">Contact</a>
             </div>
           </details>
           {/* Desktop CTA */}
-          <a
-            href="https://wa.me/2250799239383?text=%C2%AB%20Ajouter%20mon%20service%20sur%20shaifai%20%C2%BB"
-            target="_blank"
-            rel="noreferrer"
+          <div
             className="hidden md:inline-flex items-center rounded-full bg-[#10B981] text-white text-sm font-semibold px-4 py-2 hover:brightness-95"
           >
-            Ajouter
-          </a>
+            en test
+          </div>
         </div>
       </header>
 
@@ -58,7 +56,7 @@ export default function Home() {
               className="text-5xl md:text-7xl bg-clip-text text-transparent tracking-tighter whitespace-nowrap"
               style={{ backgroundImage: 'linear-gradient(90deg, #0c9366, #111827)' }}
             >
-              solutions de niche.
+              Solutions de niche.
             </span>
 
 
@@ -68,9 +66,7 @@ export default function Home() {
             pour leur donner un accès immédiat à des solutions exploitables et efficaces.
           </p>
           <div className="mt-6 flex items-center gap-3">
-            <a href="#services" className="inline-flex items-center rounded-full border border-[#111827] text-[#111827] px-5 py-2.5 text-sm font-semibold hover:bg-gray-50">
-              Découvrir
-            </a>
+            <SmoothScrollLink targetId="services" className="inline-flex items-center rounded-full border border-[#111827] text-[#111827] px-5 py-2.5 text-sm font-semibold hover:bg-gray-50">Découvrir</SmoothScrollLink>
             <a href="https://wa.me/2250799239383?text=Demander%20une%20d%C3%A9mo%20shaifai" target="_blank" rel="noreferrer" className="inline-flex items-center rounded-full bg-[#0c9366] text-white px-6 py-3 text-sm md:text-base font-semibold hover:brightness-95">
               Ajouter mon service
             </a>
@@ -212,3 +208,4 @@ export default function Home() {
     </main >
   );
 }
+import SmoothScrollLink from "@/components/SmoothScrollLink";

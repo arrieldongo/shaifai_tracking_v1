@@ -1,6 +1,12 @@
 export default function TrackingHubPage() {
   return (
     <main className="max-w-4xl mx-auto p-6">
+      <div className="mb-4">
+        <a href="/" className="inline-flex items-center gap-2 text-sm px-3 py-1.5 rounded-lg border hover:bg-gray-50">
+          <span>←</span>
+          <span>Retour</span>
+        </a>
+      </div>
       <header className="mb-6">
         <h1 className="text-3xl md:text-4xl font-black">shaifai — tracking</h1>
         <p className="text-slate-600 mt-1">Choisissez un espace</p>
@@ -19,4 +25,3 @@ export default function TrackingHubPage() {
     </main>
   );
 }
-
