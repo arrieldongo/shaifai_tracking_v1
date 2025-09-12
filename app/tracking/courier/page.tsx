@@ -43,7 +43,7 @@ export default function CourierPage() {
   const setView = (key: "list" | "sud" | "centre") => {
     const p = new URLSearchParams(search.toString());
     p.set("view", key);
-    router.push(`/courier?${p.toString()}`);
+    router.push(`/tracking/courier?${p.toString()}`);
   };
 
   /** Transforme Orders -> Steps pour UNE zone (status !== done) */
@@ -107,7 +107,7 @@ export default function CourierPage() {
         <div className="p-6 text-center text-red-600">
           Accès refusé — rôle <b>courier</b> ou <b>manager</b> requis.
           <div className="mt-2 text-sm text-slate-600">
-            Vérifie ta connexion sur <a className="underline" href="/login">/login</a> (claims et email).
+            Vérifie ta connexion sur <a className="underline" href="/tracking/login">/tracking/login</a> (claims et email).
           </div>
         </div>
       }

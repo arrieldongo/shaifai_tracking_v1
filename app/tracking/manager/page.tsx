@@ -38,13 +38,13 @@ export default function ManagerPage() {
     const p = new URLSearchParams(search.toString());
     p.set("tab", key);
     p.delete("create");
-    router.push(`/manager?${p.toString()}`);
+    router.push(`/tracking/manager?${p.toString()}`);
   };
 
   const openCreate = () => {
     const p = new URLSearchParams(search.toString());
     p.set("create", "1");
-    router.push(`/manager?${p.toString()}#create`);
+    router.push(`/tracking/manager?${p.toString()}#create`);
   };
 
   const flash = (msg: string) => alert(msg);
@@ -71,7 +71,7 @@ export default function ManagerPage() {
         <div className="p-4">
           <div className="mb-4 flex items-center gap-3">
             <button
-              onClick={() => router.push('/courier')}
+              onClick={() => router.push('/tracking/courier')}
               className="px-3 py-1.5 rounded bg-slate-800 text-white text-xs"
             >
               Voir la page Livreur

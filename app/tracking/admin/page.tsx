@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { RoleGuard } from "@/components/auth/RoleGuard";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { db } from "@/lib/firebase";
-import { addDoc, collection, doc, getDocs, onSnapshot, setDoc } from "firebase/firestore";
+import { collection, doc, onSnapshot, setDoc } from "firebase/firestore";
 import { apiFetch } from "@/lib/api";
 
 type Restaurant = { id: string; name: string; zones: Array<"sud" | "centre"> };
@@ -38,7 +38,6 @@ export default function AdminPage() {
     const z: ("sud" | "centre")[] = ["sud", "centre"].filter((k) => zones[k]);
     if (!name.trim()) return alert("Nom requis");
     try {
-      // Doc id auto
       const data = { name: name.trim(), zones: z };
       await setDoc(doc(collection(db, "restaurants")), data);
       setName("");
@@ -54,10 +53,7 @@ export default function AdminPage() {
         method: "POST",
         body: JSON.stringify({ email, password, role: role || undefined, rid: rid || undefined, courierId: courierId || undefined, admin: adminFlag || undefined }),
       });
-      setLogs((l) => [
-        `User créé: ${(res as any).uid}`,
-        ...l,
-      ]);
+      setLogs((l) => [`User créé: ${(res as any).uid}`, ...l]);
       setEmail(""); setPassword("");
     } catch (e: any) {
       alert(e.message || "Erreur createUser");
@@ -68,7 +64,7 @@ export default function AdminPage() {
     const uid = prompt("UID utilisateur ?");
     if (!uid) return;
     try {
-      const res = await apiFetch("/api/admin/setClaims", {
+      await apiFetch("/api/admin/setClaims", {
         method: "POST",
         body: JSON.stringify({ uid, role: role || undefined, rid: rid || undefined, courierId: courierId || undefined, admin: adminFlag || undefined }),
       });

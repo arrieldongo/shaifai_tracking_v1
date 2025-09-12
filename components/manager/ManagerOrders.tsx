@@ -27,7 +27,7 @@ export default function ManagerOrders({ orders, courier, onFlash }: { orders: Or
   };
 
   const copyLink = async (code: string) => {
-    const url = `${window.location.origin}/track/${code}`;
+    const url = `${window.location.origin}/tracking/track/${code}`;
     const res = await copyOrShare(url);
     if (res === 'shared') onFlash?.('Lien partagé ✅');
     else if (res === 'copied') onFlash?.('Lien copié ✅');
@@ -74,11 +74,11 @@ export default function ManagerOrders({ orders, courier, onFlash }: { orders: Or
               <div className="flex items-center gap-2">
                 <a
                   className="text-blue-600 underline text-sm"
-                  href={`/track/${o.id}`}
+                  href={`/tracking/track/${o.id}`}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  /track/{o.id}
+                  /tracking/track/{o.id}
                 </a>
                 <button
                   onClick={() => copyLink(o.id!)}

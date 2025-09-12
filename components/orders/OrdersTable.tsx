@@ -16,7 +16,7 @@ export default function OrdersTable({
   onFlash?: (msg: string) => void;
 }) {
   const copyLink = async (code: string) => {
-    const url = `${window.location.origin}/track/${code}`;
+    const url = `${window.location.origin}/tracking/track/${code}`;
     const res = await copyOrShare(url);
     if (res === 'shared') onFlash?.('Lien partagé ✅');
     else if (res === 'copied') onFlash?.('Lien copié ✅');
@@ -58,8 +58,8 @@ export default function OrdersTable({
               <td className="p-2">{o.paymentMethod?.replace('_', ' ') ?? '—'}</td>
               <td className="p-2">{o.phone ?? '—'}</td>
               <td className="p-2">
-                <a className="text-blue-600 underline" href={`/track/${o.id}`} target="_blank" rel="noreferrer">
-                  /track/{o.id}
+                <a className="text-blue-600 underline" href={`/tracking/track/${o.id}`} target="_blank" rel="noreferrer">
+                  /tracking/track/{o.id}
                 </a>
                 <button onClick={() => copyLink(o.id!)} className="ml-2 text-xs px-2 py-0.5 rounded ring-1 ring-slate-200">Copier</button>
               </td>

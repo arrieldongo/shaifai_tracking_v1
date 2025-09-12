@@ -48,7 +48,7 @@ export default function CreaPage() {
             Crréa
           </span>
           <h1
-            className="text-4xl md:text-6xl font-black tracking-tighter mt-8"
+            className="text-4xl md:text-6xl font-black tracking-tighter leading-tight mt-8"
             style={{
               WebkitTextFillColor: 'transparent',
               backgroundImage: 'linear-gradient(90deg,#FB923C,#111827)',

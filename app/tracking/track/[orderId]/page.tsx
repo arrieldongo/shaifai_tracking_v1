@@ -44,22 +44,13 @@ function fixedSteps(zone: Zone): Step[] {
       ];
 }
 
-function computeStatus(ids: { id: string; label: string; color: string }[], currentId?: string | null) {
-  if (!currentId) return ids.map((s, i) => ({ ...s, status: i === 0 ? 'in_progress' : 'upcoming' as const }));
-  const idx = ids.findIndex((s) => s.id === currentId);
-  return ids.map((s, i) => ({
-    ...s,
-    status: idx === -1 ? (i === 0 ? 'in_progress' : 'upcoming') : i < idx ? 'reached' : i === idx ? 'in_progress' : 'upcoming',
-  }));
-}
-
 export default function TrackOrderPage() {
   const params = useParams<{ orderId: string | string[] }>();
   const orderId = Array.isArray(params?.orderId) ? params.orderId[0] ?? '' : params?.orderId ?? '';
 
   const [order, setOrder] = useState<PublicOrder | null>(null);
-  const [queue, setQueue] = useState<PublicOrder[]>([]);
   const [loading, setLoading] = useState(true);
+  const [queue, setQueue] = useState<PublicOrder[]>([]);
 
   useEffect(() => {
     if (!orderId) return;
@@ -75,7 +66,6 @@ export default function TrackOrderPage() {
     return () => unsub();
   }, [orderId]);
 
-  // Charge la file d'attente (ordre dynamique) pour ce resto/zone, puis triera côté client.
   useEffect(() => {
     (async () => {
       try {
@@ -83,7 +73,6 @@ export default function TrackOrderPage() {
         const q = query(collection(db, 'public_orders'), where('rid', '==', order.rid));
         const snap = await getDocs(q);
         let out: PublicOrder[] = snap.docs.map((d) => ({ id: d.id, ...(d.data() as any) } as PublicOrder));
-        // Filtre par zone et statut/assign comme la page livreur
         out = out.filter((o) => o.zone === order.zone && o.status !== 'done' && o.assigned);
         out.sort((a, b) => (a.priority ?? 999999) - (b.priority ?? 999999));
         setQueue(out);
@@ -92,7 +81,6 @@ export default function TrackOrderPage() {
       }
     })();
   }, [order?.rid, order?.zone, order?.status, order?.assigned, order?.priority]);
-
 
   const orderSteps: Step[] = useMemo(() => {
     if (!order) return [];
@@ -121,8 +109,10 @@ export default function TrackOrderPage() {
       ) : (
         <>
           <h1 className="text-xl font-bold mb-2">Suivi commande</h1>
-          <div className="text-sm text-slate-700 mb-1">Cite: {order.zone.toUpperCase()}</div>
-          <div className="text-sm text-slate-700 mb-3">Résidence Chambre: {order.roomNumber ?? '—'}</div>
+          <div className="text-sm text-slate-700 mb-2">ID: {order.id}</div>
+          {order.clientCode && <div className="text-sm text-slate-700 mb-1">Code client: {order.clientCode}</div>}
+          <div className="text-sm text-slate-700 mb-1">Zone: {order.zone.toUpperCase()}</div>
+          <div className="text-sm text-slate-700 mb-3">Chambre: {order.roomNumber ?? '—'}</div>
           <div>
             {order.status === 'done' ? (
               <Badge variant="green">Livré</Badge>
@@ -151,3 +141,4 @@ export default function TrackOrderPage() {
     </main>
   );
 }
+
