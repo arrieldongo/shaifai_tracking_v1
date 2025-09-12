@@ -89,7 +89,7 @@ export default function Home() {
       </section>
 
       {/* Hero #2 — services list (full viewport height) */}
-      <section className="relative max-w-7xl mx-auto px-6 pb-16 min-h-screen flex items-center" id="services">
+      <section className="relative max-w-7xl mx-auto px-6 pb-8 min-h-screen flex items-center" id="services">
         {/* subtle white tint gradient for hero #2 
         <div
           aria-hidden
@@ -108,7 +108,9 @@ export default function Home() {
                 <FaMapMarkedAlt />
               </span>
               <div>
-                <div className="text-2xl font-semibold text-[#111827]">Tracking</div>
+                <div className="text-2xl font-semibold text-[#111827] flex items-center gap-2">Tracking
+                  <span className="inline-block text-[10px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 border border-amber-200">bientôt</span>
+                </div>
                 <div className="text-base text-slate-600">Suivi en temps réel</div>
               </div>
             </div>
@@ -148,6 +150,13 @@ export default function Home() {
             </div>
           </a>
         </div>
+
+      </section>
+
+      <section className="flex items-center text-center" id="services">
+        <p className="mt-6 w-full text-center text-sm md:text-base text-slate-600">
+          Nous sommes actuellement en phase de tests. Encore plus de services arriveront bientôt.
+        </p>
       </section>
 
 
