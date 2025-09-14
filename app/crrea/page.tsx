@@ -4,6 +4,7 @@
 
 import fs from 'fs';
 import path from 'path';
+import Link from 'next/link';
 import { FaWhatsapp } from 'react-icons/fa';
 import CreaMasonry from '@/components/CreaMasonry';
 
@@ -30,10 +31,10 @@ export default function CreaPage() {
   return (
     <main className="max-w-[1200px] mx-auto px-4 md:px-6 py-8">
       <div className="mb-4">
-        <a href="/" className="inline-flex items-center gap-2 text-sm px-3 py-1.5 rounded-lg border hover:bg-gray-50">
+        <Link href="/" className="inline-flex items-center gap-2 text-sm px-3 py-1.5 rounded-lg border hover:bg-gray-50">
           <span>←</span>
           <span>Retour</span>
-        </a>
+        </Link>
       </div>
       {/* Header */}
       <header className="mb-8 sm:mb-12">

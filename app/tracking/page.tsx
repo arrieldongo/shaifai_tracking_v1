@@ -131,7 +131,7 @@ export default function TrackingHubPage() {
                 <input value={password} onChange={(e) => setPassword(e.target.value)} placeholder="mot de passe" type="password" className="border rounded p-2 w-full" />
                 <button disabled={submitting} type="submit" className="px-3 py-2 bg-[#c11e38] text-white rounded w-full">{submitting ? 'Connexion…' : 'Se connecter'}</button>
                 <div className="text-xs text-slate-600 text-center">
-                  Vous n'avez pas d'identifant ? {" "}
+                  Vous n&apos;avez pas d&apos;identifant ? {" "}
                   <a className="text-[#c11e38] underline" href="https://wa.me/2250799239383?text=Demande%20d%E2%80%99identifiants%20shaifai%20tracking" target="_blank" rel="noreferrer">Écrire sur WhatsApp</a>
                 </div>
               </form>

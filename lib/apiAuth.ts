@@ -1,5 +1,5 @@
 // lib/apiAuth.ts
-// Vérifications d'auth pour les routes /api/** (Next.js App Router)
+// Vérifications d'auth pour les routes /api/** (App Router)
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getAuth } from 'firebase-admin/auth';

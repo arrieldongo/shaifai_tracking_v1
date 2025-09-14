@@ -1,4 +1,5 @@
-import { FaWhatsapp, FaLinkedin, FaWhatsappSquare, FaLink, FaMapMarkedAlt, FaPaintBrush } from "react-icons/fa"
+import Link from 'next/link';
+import { FaLinkedin, FaWhatsappSquare, FaLink, FaMapMarkedAlt, FaPaintBrush } from "react-icons/fa"
 
 export default function Home() {
   return (
@@ -13,7 +14,7 @@ export default function Home() {
       <header className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
         <div className="text-4xl font-extrabold tracking-tighter text-[#111827]">shaifai</div>
         <nav className="hidden md:flex items-center gap-6 text-sm text-[#111827]">
-          <a href="/" className="hover:opacity-80">Accueil</a>
+          <Link href="/" className="hover:opacity-80">Accueil</Link>
           {/* Smooth scroll to services without hash */}
           <SmoothScrollLink targetId="services" className="hover:opacity-80">Nos services</SmoothScrollLink>
           <a href="https://wa.me/2250799239383?text=%C2%AB%20Ajouter%20mon%20service%20sur%20shaifai%20%C2%BB" target="_blank" rel="noreferrer" className="hover:opacity-80">Ajouter son service</a>
@@ -24,7 +25,7 @@ export default function Home() {
           <details className="md:hidden relative">
             <summary className="list-none inline-flex items-center rounded-full border border-[#111827] text-[#111827] px-4 py-2 text-sm font-semibold cursor-pointer">Menu</summary>
             <div className="absolute right-0 mt-2 w-56 rounded-xl border bg-white shadow-lg p-2 text-sm">
-              <a href="/" className="block px-3 py-2 rounded hover:bg-gray-50">Accueil</a>
+              <Link href="/" className="block px-3 py-2 rounded hover:bg-gray-50">Accueil</Link>
               <SmoothScrollLink targetId="services" className="block px-3 py-2 rounded hover:bg-gray-50">Nos services</SmoothScrollLink>
               <a href="https://wa.me/2250799239383?text=%C2%AB%20Ajouter%20mon%20service%20sur%20shaifai%20%C2%BB" target="_blank" rel="noreferrer" className="block px-3 py-2 rounded hover:bg-gray-50">Ajouter son service</a>
               <a href="https://wa.me/2250799239383" target="_blank" rel="noreferrer" className="block px-3 py-2 rounded hover:bg-gray-50">Contact</a>
@@ -62,7 +63,7 @@ export default function Home() {
 
           </div>
           <p className="mt-4 w-auto text-md/5 text-gray-500 text- md:text-lg/5.5 max-w-lg">
-            Nos saas et boutiques s’adressent aujourd'hui aux polytech, aux acteurs du secteur informel et aux entreprises,
+            Nos saas et boutiques s’adressent aujourd&apos;hui aux polytech, aux acteurs du secteur informel et aux entreprises,
             pour leur donner un accès immédiat à des solutions exploitables et efficaces.
           </p>
           <div className="mt-6 flex items-center gap-3">

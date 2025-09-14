@@ -1,6 +1,7 @@
-// app/courier/page.tsx
+// app/tracking/courier/page.tsx
 "use client";
 
+import { Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import HeaderTabs from "@/components/HeaderTabs";
 import TimelineZone from "@/components/courier/TimelineZone";
@@ -22,7 +23,7 @@ const STEP_COLORS = {
   batiment: "#6B7280",
 } as const;
 
-export default function CourierPage() {
+function CourierPageInner() {
   const search = useSearchParams();
   const router = useRouter();
   const { loading, claims } = useAuth();
@@ -159,6 +160,14 @@ export default function CourierPage() {
         </div>
       </main>
     </RoleGuard>
+  );
+}
+
+export default function CourierPage() {
+  return (
+    <Suspense fallback={<main className="p-4 text-sm text-gray-500">Chargement…</main>}>
+      <CourierPageInner />
+    </Suspense>
   );
 }
 

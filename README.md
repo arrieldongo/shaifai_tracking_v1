@@ -1,4 +1,11 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+shaifai — Services hub (tracking + créa)
+
+Monorepo front (Next.js App Router) pour les services shaifai:
+- Vitrine: page d’accueil avec sections hero et services.
+- Crréa: galerie d’affiches (masonry) + lightbox + CTA WhatsApp.
+- Tracking: hub et espaces Admin, Gérant, Livreur, suivi client.
+
+Déploiement: Firebase Hosting (frameworks backend activé).
 
 ## Getting Started
 
@@ -18,20 +25,18 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Prérequis
+- Node 18+
+- Firebase CLI (`npm i -g firebase-tools`)
 
-## Learn More
+Scripts
+- Dev: `npm run dev`
+- Build: `npm run build`
+- Start: `npm start`
 
-To learn more about Next.js, take a look at the following resources:
+Déploiement Firebase (résumé)
+1) `firebase login`
+2) Remplacer le project id dans `.firebaserc`
+3) `firebase deploy`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 # shaifai_tracking_v1

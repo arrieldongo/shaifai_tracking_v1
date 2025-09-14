@@ -1,6 +1,7 @@
-// app/manager/page.tsx
+// app/tracking/manager/page.tsx
 "use client";
 
+import { Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import HeaderTabs from "@/components/HeaderTabs";
 import ManagerHome from "@/components/manager/ManagerHome";
@@ -12,7 +13,7 @@ import { useAuth } from "@/components/auth/AuthProvider";
 import { useRestaurant } from "@/hooks/useRestaurant";
 import { RoleGuard } from "@/components/auth/RoleGuard";
 
-export default function ManagerPage() {
+function ManagerPageInner() {
   const search = useSearchParams();
   const router = useRouter();
   const { loading, claims } = useAuth();
@@ -100,6 +101,14 @@ export default function ManagerPage() {
         </div>
       </main>
     </RoleGuard>
+  );
+}
+
+export default function ManagerPage() {
+  return (
+    <Suspense fallback={<main className="p-4 text-sm text-gray-500">Chargement…</main>}>
+      <ManagerPageInner />
+    </Suspense>
   );
 }
 
