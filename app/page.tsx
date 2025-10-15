@@ -78,7 +78,7 @@ export default function Home() {
         {/* Right (hero image) */}
         <div className="flex items-center justify-center relative z-[2]">
           <Image
-            src="/hero/hero.png"
+            src="/crrea/hero.png"
             alt="Illustration livraison et tracking"
             width={560}
             height={560}
