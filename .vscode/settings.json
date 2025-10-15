@@ -1,0 +1,4 @@
+{
+  "terminal.integrated.scrollback": 100000,
+  "terminal.integrated.shellIntegration.history": 10000
+}

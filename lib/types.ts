@@ -25,7 +25,13 @@ export type Step = {
 export function zoneAsset(zone: Zone, name: string) {
   // ex: zoneAsset('centre','portail') => /itineraireCentre/portail.png
   const dir = zone === "centre" ? "itineraireCentre" : "itineraireSud";
-  return `/${dir}/${name}.png`;
+  // Certains fichiers ont été renommés en camelCase dans /public
+  // Mapping de compat : activite_libre -> activiteLibre
+  const map: Record<string, string> = {
+    activite_libre: "activiteLibre",
+  };
+  const file = map[name] ?? name;
+  return `/${dir}/${file}.png`;
 }
 
 export type Order = {

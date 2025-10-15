@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 export default function CreaGallery({ images }: { images: string[] }) {
   const [open, setOpen] = useState(false);
@@ -36,8 +37,7 @@ export default function CreaGallery({ images }: { images: string[] }) {
           {images.map((src, i) => (
             <div key={src} className="mb-4 break-inside-avoid rounded-xl overflow-hidden border bg-white shadow-sm cursor-pointer" onClick={() => onOpen(src)}>
               <div className="relative group">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={src} alt={`crea-${i}`} className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
+                <Image src={src} alt={`crea-${i}`} width={1200} height={800} className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
                 <a
                   href={wa(src)}
                   onClick={(e) => e.stopPropagation()}
@@ -57,8 +57,7 @@ export default function CreaGallery({ images }: { images: string[] }) {
       {open && current && (
         <div className="fixed inset-0 z-[60] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4" onClick={onClose}>
           <div className="relative max-w-5xl w-full" onClick={(e) => e.stopPropagation()}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={current} alt="preview" className="w-full h-auto object-contain max-h-[80vh] rounded-xl shadow-2xl bg-white" />
+            <Image src={current} alt="preview" width={1600} height={1200} className="w-full h-auto object-contain max-h-[80vh] rounded-xl shadow-2xl bg-white" />
             <div className="mt-3 flex items-center justify-between">
               <a href={wa(current)} target="_blank" rel="noreferrer" className="inline-block text-sm px-4 py-2 rounded bg-[#10B981] text-white">comme ça</a>
               <button onClick={onClose} className="text-sm px-4 py-2 rounded border bg-white hover:bg-gray-50">Fermer</button>
@@ -69,4 +68,3 @@ export default function CreaGallery({ images }: { images: string[] }) {
     </>
   );
 }
-

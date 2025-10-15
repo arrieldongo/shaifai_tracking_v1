@@ -2,6 +2,7 @@
 "use client";
 import type { Step } from "@/lib/types";
 import Badge from "@/components/Badge";
+import Image from 'next/image';
 
 type Props = {
   step: Step;
@@ -29,8 +30,8 @@ export default function TimelineItem({ step, isCurrent, onToggleHere, onTogglePe
   return (
     <div className="grid grid-cols-[56px_1fr] gap-4">
       <div className="flex flex-col items-center">
-        <div className="size-14 rounded-full overflow-hidden ring-2 ring-white shadow">
-          <img src={image} alt={label} className={`size-full object-cover ${grayscale}`} />
+        <div className="size-14 rounded-full overflow-hidden ring-2 ring-white shadow relative">
+          <Image src={image} alt={label} fill sizes="56px" className={`object-cover ${grayscale}`} />
         </div>
         {line}
       </div>

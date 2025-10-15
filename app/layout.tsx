@@ -13,8 +13,8 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: "Shaifai Tracking",
-  description: "MVP de tracking sans carte (timeline)",
+  title: "Shaifai",
+  description: "MVP de shaifai",
 };
 
 export default function RootLayout({

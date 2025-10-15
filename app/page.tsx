@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { FaLinkedin, FaWhatsappSquare, FaLink, FaMapMarkedAlt, FaPaintBrush } from "react-icons/fa"
 
 export default function Home() {
@@ -76,11 +77,11 @@ export default function Home() {
 
         {/* Right (hero image) */}
         <div className="flex items-center justify-center relative z-[2]">
-          {/* Provide your image at public/hero/shaifai-hero.png */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src="/hero/shaifai-hero.png"
             alt="Illustration livraison et tracking"
+            priority
+            sizes="(min-width: 768px) 560px, 100vw"
             className="max-w-full h-auto object-contain drop-shadow-xl"
             style={{ width: '100%', maxWidth: '560px' }}
           />

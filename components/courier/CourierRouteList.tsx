@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import type { Step, Zone } from "@/lib/types";
 import { reorder } from "@/lib/api";
+import Image from 'next/image';
 
 type Props = {
   sud: Step[];     // seulement steps de type 'order' (zone=sud)
@@ -53,7 +54,9 @@ export default function CourierRouteList({ sud, centre }: Props) {
         <ul className="grid gap-2">
           {items.map((s, idx) => (
             <li key={s.id} className="flex items-center gap-3 bg-white rounded-xl border p-3">
-              <img src={s.image} alt="" className="size-10 rounded-md object-cover" />
+              <div className="relative size-10 rounded-md overflow-hidden">
+                <Image src={s.image} alt="" width={40} height={40} className="object-cover" />
+              </div>
               <div className="flex-1">
                 <div className="text-sm font-semibold">{s.label}</div>
                 <div className="text-xs text-gray-500">#{idx + 1}</div>
