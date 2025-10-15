@@ -78,12 +78,13 @@ export default function Home() {
         {/* Right (hero image) */}
         <div className="flex items-center justify-center relative z-[2]">
           <Image
-            src="/hero/shaifai-hero.png"
+            src="/hero/hero.png"
             alt="Illustration livraison et tracking"
+            width={560}
+            height={560}
             priority
             sizes="(min-width: 768px) 560px, 100vw"
             className="max-w-full h-auto object-contain drop-shadow-xl"
-            style={{ width: '100%', maxWidth: '560px' }}
           />
         </div>
 
