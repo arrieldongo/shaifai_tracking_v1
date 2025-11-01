@@ -10,11 +10,11 @@ import CreaMasonry from '@/components/CreaMasonry';
  
 function listCreas(): string[] {
   try {
-    const dir = path.join(process.cwd(), 'public', 'sud');
+    const dir = path.join(process.cwd(), 'public', 'crrea');
     const files = fs.readdirSync(dir);
     return files
       .filter((f) => /\.(png|jpe?g|webp|gif|svg)$/i.test(f))
-      .map((f) => `/sud/${f}`);
+      .map((f) => `/crrea/${f}`);
   } catch {
     return [];
   }
