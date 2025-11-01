@@ -8,7 +8,6 @@ import Badge from '@/components/Badge';
 import FormatDate from '@/components/FormatDate';
 import type { Zone, Step } from '@/lib/types';
 import TimelineZone from '@/components/courier/TimelineZone';
-import { zoneAsset } from '@/lib/types';
 
 type PublicOrder = {
   id: string;
@@ -30,18 +29,40 @@ const STEP_COLORS = {
   batiment: '#6B7280',
 } as const;
 
-function fixedSteps(zone: Zone): Step[] {
-  return zone === 'centre'
-    ? [
-        { id: 'centre-portail', label: 'Portail principal centre', image: zoneAsset('centre','portail'), color: STEP_COLORS.portail, status: 'upcoming', kind: 'fixed' },
-        { id: 'centre-bibliotheque', label: 'Bibliothèque centrale', image: zoneAsset('centre','bibliotheque'), color: STEP_COLORS.bibliotheque, status: 'upcoming', kind: 'fixed' },
-        { id: 'centre-activite', label: 'Activité libre (centre)', image: zoneAsset('centre','activite_libre'), color: STEP_COLORS.activite_libre, status: 'upcoming', kind: 'fixed' },
-      ]
-    : [
-        { id: 'sud-portail', label: 'Portail Sud', image: zoneAsset('sud','portail'), color: STEP_COLORS.portail, status: 'upcoming', kind: 'fixed' },
-        { id: 'sud-bibliotheque', label: 'Bibliothèque Sud', image: zoneAsset('sud','bibliotheque'), color: STEP_COLORS.bibliotheque, status: 'upcoming', kind: 'fixed' },
-        { id: 'sud-activite', label: 'Activité libre (sud)', image: zoneAsset('sud','activite_libre'), color: STEP_COLORS.activite_libre, status: 'upcoming', kind: 'fixed' },
-      ];
+// Assets dynamiques (client)
+type AssetsMap = Record<string, string>;
+const normalizeKey = (s: string) => s.replace(/[^a-z0-9]/gi, '').toLowerCase();
+async function fetchZoneAssets(zone: Zone): Promise<AssetsMap> {
+  try {
+    const res = await fetch(`/api/assets/zone?zone=${zone}`);
+    if (!res.ok) return {};
+    const data = await res.json();
+    return (data?.map as AssetsMap) || {};
+  } catch {
+    return {};
+  }
+}
+
+// Demandé: fonctions listZoneSud / listZoneCentre (retourne la liste d'URLs)
+async function listZoneSud(): Promise<string[]> {
+  try {
+    const r = await fetch('/api/assets/zone?zone=sud');
+    if (!r.ok) return [];
+    const d = await r.json();
+    return (d?.files as string[]) || [];
+  } catch {
+    return [];
+  }
+}
+async function listZoneCentre(): Promise<string[]> {
+  try {
+    const r = await fetch('/api/assets/zone?zone=centre');
+    if (!r.ok) return [];
+    const d = await r.json();
+    return (d?.files as string[]) || [];
+  } catch {
+    return [];
+  }
 }
 
 export default function TrackOrderPage() {
@@ -51,6 +72,19 @@ export default function TrackOrderPage() {
   const [order, setOrder] = useState<PublicOrder | null>(null);
   const [loading, setLoading] = useState(true);
   const [queue, setQueue] = useState<PublicOrder[]>([]);
+  const [assetsSud, setAssetsSud] = useState<AssetsMap>({});
+  const [assetsCentre, setAssetsCentre] = useState<AssetsMap>({});
+
+  useEffect(() => {
+    fetchZoneAssets('sud').then(setAssetsSud);
+    fetchZoneAssets('centre').then(setAssetsCentre);
+  }, []);
+
+  const asset = (zone: Zone, name: string) => {
+    const key = normalizeKey(name);
+    const m = zone === 'centre' ? assetsCentre : assetsSud;
+    return m[key] || m[normalizeKey(name.replace(/_/g, ''))] || `/${zone}/${name}.png`;
+  };
 
   useEffect(() => {
     if (!orderId) return;
@@ -88,12 +122,25 @@ export default function TrackOrderPage() {
     return list.map<Step>((o) => ({
       id: o.id,
       label: o.clientCode ? `${o.clientCode}${o.roomNumber ? ` • Ch. ${o.roomNumber}` : ''}` : `Commande ${o.id}`,
-      image: zoneAsset(o.zone, 'batiment'),
+      image: asset(o.zone, 'batiment'),
       color: STEP_COLORS.batiment,
       status: 'upcoming',
       kind: 'order',
     }));
-  }, [order, queue]);
+  }, [order, queue, assetsSud, assetsCentre]);
+
+  const fixedSteps = (zone: Zone): Step[] =>
+    zone === 'centre'
+      ? [
+          { id: 'centre-portail', label: 'Portail principal centre', image: asset('centre','portail'), color: STEP_COLORS.portail, status: 'upcoming', kind: 'fixed' },
+          { id: 'centre-bibliotheque', label: 'Bibliothèque centrale', image: asset('centre','bibliotheque'), color: STEP_COLORS.bibliotheque, status: 'upcoming', kind: 'fixed' },
+          { id: 'centre-activite', label: 'Activité libre (centre)', image: asset('centre','activite_libre'), color: STEP_COLORS.activite_libre, status: 'upcoming', kind: 'fixed' },
+        ]
+      : [
+          { id: 'sud-portail', label: 'Portail Sud', image: asset('sud','portail'), color: STEP_COLORS.portail, status: 'upcoming', kind: 'fixed' },
+          { id: 'sud-bibliotheque', label: 'Bibliothèque Sud', image: asset('sud','bibliotheque'), color: STEP_COLORS.bibliotheque, status: 'upcoming', kind: 'fixed' },
+          { id: 'sud-activite', label: 'Activité libre (sud)', image: asset('sud','activite_libre'), color: STEP_COLORS.activite_libre, status: 'upcoming', kind: 'fixed' },
+        ];
 
   return (
     <main className="p-6 max-w-lg mx-auto">
@@ -141,4 +188,3 @@ export default function TrackOrderPage() {
     </main>
   );
 }
-

@@ -1,7 +1,7 @@
 // app/tracking/courier/page.tsx
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import HeaderTabs from "@/components/HeaderTabs";
 import TimelineZone from "@/components/courier/TimelineZone";
@@ -9,7 +9,6 @@ import CourierRouteList from "@/components/courier/CourierRouteList";
 import { useCourier } from "@/hooks/useCourier";
 import { useOrders } from "@/hooks/useOrders";
 import type { Order, Step, Zone } from "@/lib/types";
-import { zoneAsset } from "@/lib/types";
 import { RoleGuard } from "@/components/auth/RoleGuard";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { apiFetch } from "@/lib/api";
@@ -22,6 +21,43 @@ const STEP_COLORS = {
   activite_libre: "#10B981",
   batiment: "#6B7280",
 } as const;
+
+// Helpers client: liste/resolve des assets par zone via API
+type AssetsMap = Record<string, string>;
+const normalizeKey = (s: string) => s.replace(/[^a-z0-9]/gi, '').toLowerCase();
+
+async function fetchZoneAssets(zone: Zone): Promise<AssetsMap> {
+  try {
+    const res = await fetch(`/api/assets/zone?zone=${zone}`);
+    if (!res.ok) return {};
+    const data = await res.json();
+    return (data?.map as AssetsMap) || {};
+  } catch {
+    return {};
+  }
+}
+
+// Demandé: fonctions listZoneSud / listZoneCentre (retourne la liste d'URLs)
+async function listZoneSud(): Promise<string[]> {
+  try {
+    const r = await fetch('/api/assets/zone?zone=sud');
+    if (!r.ok) return [];
+    const d = await r.json();
+    return (d?.files as string[]) || [];
+  } catch {
+    return [];
+  }
+}
+async function listZoneCentre(): Promise<string[]> {
+  try {
+    const r = await fetch('/api/assets/zone?zone=centre');
+    if (!r.ok) return [];
+    const d = await r.json();
+    return (d?.files as string[]) || [];
+  } catch {
+    return [];
+  }
+}
 
 function CourierPageInner() {
   const search = useSearchParams();
@@ -39,6 +75,23 @@ function CourierPageInner() {
   const { courier } = useCourier(courierId, { rid: effectiveRid });
   const { orders } = useOrders(undefined, { rid: effectiveRid });
 
+  // Assets dynamiques
+  const [assetsSud, setAssetsSud] = useState<AssetsMap>({});
+  const [assetsCentre, setAssetsCentre] = useState<AssetsMap>({});
+
+  useEffect(() => {
+    // Charger une seule fois
+    fetchZoneAssets('sud').then(setAssetsSud);
+    fetchZoneAssets('centre').then(setAssetsCentre);
+  }, []);
+
+  const asset = (zone: Zone, name: string) => {
+    const key = normalizeKey(name);
+    const m = zone === 'centre' ? assetsCentre : assetsSud;
+    // compat activite_libre -> activiteLibre
+    return m[key] || m[normalizeKey(name.replace(/_/g, ''))] || `/${zone}/${name}.png`;
+  };
+
   // Onglets
   const computedActiveKey = view === "list" ? "" : view;
   const setView = (key: "list" | "sud" | "centre") => {
@@ -55,7 +108,7 @@ function CourierPageInner() {
       .map<Step>((o) => ({
         id: o.id!, // Firestore id
         label: o.clientCode ? `${o.clientCode}${o.roomNumber ? ` • Ch. ${o.roomNumber}` : ""}` : `Commande ${o.id}`,
-        image: zoneAsset(zone, "batiment"),
+        image: asset(zone, "batiment"),
         color: STEP_COLORS.batiment,
         status: "upcoming",
         kind: "order",
@@ -65,14 +118,14 @@ function CourierPageInner() {
   const fixedSteps = (zone: Zone): Step[] =>
     zone === "centre"
       ? [
-          { id: "centre-portail",      label: "Portail principal centre", image: zoneAsset("centre", "portail"),       color: STEP_COLORS.portail,      status: "upcoming", kind: "fixed" },
-          { id: "centre-bibliotheque", label: "Bibliothèque centrale",    image: zoneAsset("centre", "bibliotheque"),  color: STEP_COLORS.bibliotheque, status: "upcoming", kind: "fixed" },
-          { id: "centre-activite",     label: "Activité libre (centre)",  image: zoneAsset("centre", "activite_libre"),color: STEP_COLORS.activite_libre,status: "upcoming", kind: "fixed" },
+          { id: "centre-portail",      label: "Portail principal centre", image: asset("centre", "portail"),       color: STEP_COLORS.portail,      status: "upcoming", kind: "fixed" },
+          { id: "centre-bibliotheque", label: "Bibliothèque centrale",    image: asset("centre", "bibliotheque"),  color: STEP_COLORS.bibliotheque, status: "upcoming", kind: "fixed" },
+          { id: "centre-activite",     label: "Activité libre (centre)",  image: asset("centre", "activiteLibre"),color: STEP_COLORS.activite_libre,status: "upcoming", kind: "fixed" },
         ]
       : [
-          { id: "sud-portail",         label: "Portail Sud",              image: zoneAsset("sud", "portail"),          color: STEP_COLORS.portail,      status: "upcoming", kind: "fixed" },
-          { id: "sud-bibliotheque",    label: "Bibliothèque Sud",         image: zoneAsset("sud", "bibliotheque"),     color: STEP_COLORS.bibliotheque, status: "upcoming", kind: "fixed" },
-          { id: "sud-activite",        label: "Activité libre (sud)",     image: zoneAsset("sud", "activite_libre"),   color: STEP_COLORS.activite_libre,status: "upcoming", kind: "fixed" },
+          { id: "sud-portail",         label: "Portail Sud",              image: asset("sud", "portail"),          color: STEP_COLORS.portail,      status: "upcoming", kind: "fixed" },
+          { id: "sud-bibliotheque",    label: "Bibliothèque Sud",         image: asset("sud", "bibliotheque"),     color: STEP_COLORS.bibliotheque, status: "upcoming", kind: "fixed" },
+          { id: "sud-activite",        label: "Activité libre (sud)",     image: asset("sud", "activite_libre"),   color: STEP_COLORS.activite_libre,status: "upcoming", kind: "fixed" },
         ];
 
   // Étape courante telle que posée par le livreur

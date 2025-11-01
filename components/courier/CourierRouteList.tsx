@@ -54,7 +54,7 @@ export default function CourierRouteList({ sud, centre }: Props) {
         <ul className="grid gap-2">
           {items.map((s, idx) => (
             <li key={s.id} className="flex items-center gap-3 bg-white rounded-xl border p-3">
-              <div className="relative size-10 rounded-md overflow-hidden">
+              <div className="relative t table-caption size-10 rounded-md overflow-hidden">
                 <Image src={s.image} alt="" width={40} height={40} className="object-cover" />
               </div>
               <div className="flex-1">
