@@ -56,3 +56,35 @@ export async function copyOrShare(url: string): Promise<'shared' | 'copied' | 's
     }
   }
 }
+
+// Copy arbitrary text to clipboard with fallbacks
+export async function copyText(text: string): Promise<'copied' | 'shown' | 'failed'> {
+  try {
+    if (navigator.clipboard?.writeText && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+      return 'copied';
+    }
+  } catch { /* continue */ }
+  try {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.readOnly = true;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    ta.setSelectionRange(0, ta.value.length);
+    const ok = document.execCommand('copy');
+    document.body.removeChild(ta);
+    return ok ? 'copied' : 'failed';
+  } catch {
+    try {
+      window.prompt('Copiez le texte :', text);
+      return 'shown';
+    } catch {
+      return 'failed';
+    }
+  }
+}

@@ -33,6 +33,12 @@ export async function createOrder(input: {
   roomNumber?: string;
   phone?: string;
   priority?: number;
+  // Extras
+  customerName?: string;
+  description?: string;
+  price?: number;
+  paymentMethod?: Order['paymentMethod'];
+  notes?: string;
 }): Promise<{ ok: true; id: string }>
 {
   return apiFetch<{ ok: true; id: string }>(`/api/createOrder`, {

@@ -51,6 +51,12 @@ export function useOrders(_deprecatedCourierId?: string, opts?: Options) {
             priority: x.priority,
             createdAt: x.createdAt,
             updatedAt: x.updatedAt,
+            // Extras optionnels
+            customerName: x.customerName ?? undefined,
+            description: x.description ?? undefined,
+            price: typeof x.price === 'number' ? x.price : undefined,
+            paymentMethod: x.paymentMethod ?? undefined,
+            notes: x.notes ?? undefined,
           };
           return o;
         });

@@ -88,7 +88,6 @@ export default function CourierRouteList({ sud, centre }: Props) {
 
   return (
     <div className="max-w-3xl mx-auto">
-      <h2 className="font-title font-black text-2xl mb-4">Ordre des livraisons</h2>
       <Section zone="centre" items={centreList} title="Ordre des livraisons Centre" />
       <Section zone="sud" items={sudList} title="Ordre des livraisons Sud" />
     </div>

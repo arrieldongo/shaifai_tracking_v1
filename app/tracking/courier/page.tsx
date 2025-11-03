@@ -107,7 +107,7 @@ function CourierPageInner() {
       .sort((a, b) => (a.priority ?? 999999) - (b.priority ?? 999999))
       .map<Step>((o) => ({
         id: o.id!, // Firestore id
-        label: o.clientCode ? `${o.clientCode}${o.roomNumber ? ` • Ch. ${o.roomNumber}` : ""}` : `Commande ${o.id}`,
+        label: o.customerName ? `${o.customerName} ${o.roomNumber ? ` •   en ${o.roomNumber}` : ""}` : `Commande ${o.id}`,
         image: asset(zone, "batiment"),
         color: STEP_COLORS.batiment,
         status: "upcoming",
@@ -118,15 +118,15 @@ function CourierPageInner() {
   const fixedSteps = (zone: Zone): Step[] =>
     zone === "centre"
       ? [
-          { id: "centre-portail",      label: "Portail principal centre", image: asset("centre", "portail"),       color: STEP_COLORS.portail,      status: "upcoming", kind: "fixed" },
-          { id: "centre-bibliotheque", label: "Bibliothèque centrale",    image: asset("centre", "bibliotheque"),  color: STEP_COLORS.bibliotheque, status: "upcoming", kind: "fixed" },
-          { id: "centre-activite",     label: "Activité libre (centre)",  image: asset("centre", "activiteLibre"),color: STEP_COLORS.activite_libre,status: "upcoming", kind: "fixed" },
-        ]
+        { id: "centre-portail", label: "Portail principal centre", image: asset("centre", "portail"), color: STEP_COLORS.portail, status: "upcoming", kind: "fixed" },
+        { id: "centre-bibliotheque", label: "Bibliothèque centrale", image: asset("centre", "bibliotheque"), color: STEP_COLORS.bibliotheque, status: "upcoming", kind: "fixed" },
+        { id: "centre-activite", label: "Activité libre (centre)", image: asset("centre", "activiteLibre"), color: STEP_COLORS.activite_libre, status: "upcoming", kind: "fixed" },
+      ]
       : [
-          { id: "sud-portail",         label: "Portail Sud",              image: asset("sud", "portail"),          color: STEP_COLORS.portail,      status: "upcoming", kind: "fixed" },
-          { id: "sud-bibliotheque",    label: "Bibliothèque Sud",         image: asset("sud", "bibliotheque"),     color: STEP_COLORS.bibliotheque, status: "upcoming", kind: "fixed" },
-          { id: "sud-activite",        label: "Activité libre (sud)",     image: asset("sud", "activite_libre"),   color: STEP_COLORS.activite_libre,status: "upcoming", kind: "fixed" },
-        ];
+        { id: "sud-portail", label: "Portail Sud", image: asset("sud", "portail"), color: STEP_COLORS.portail, status: "upcoming", kind: "fixed" },
+        { id: "sud-bibliotheque", label: "Bibliothèque Sud", image: asset("sud", "bibliotheque"), color: STEP_COLORS.bibliotheque, status: "upcoming", kind: "fixed" },
+        { id: "sud-activite", label: "Activité libre (sud)", image: asset("sud", "activite_libre"), color: STEP_COLORS.activite_libre, status: "upcoming", kind: "fixed" },
+      ];
 
   // Étape courante telle que posée par le livreur
   const currentStepId = courier?.currentStepId ?? null;
@@ -171,10 +171,14 @@ function CourierPageInner() {
         {!effectiveRid && (
           <div className="p-4 text-xs text-amber-700 bg-amber-100 rounded mb-2">Admin: ajoute ?rid=&lt;restaurantId&gt; à l’URL pour sélectionner un resto</div>
         )}
+
+        <h1 className="text-center text-2xl font-bold my-4">
+          {restaurant?.name}
+        </h1>
+
         <HeaderTabs
           leftIcon="list"
           onLeftClick={() => setView("list")}
-          title={restaurant?.name}
           tabs={[
             { key: "sud", label: "Sud" },
             { key: "centre", label: "Centre" },

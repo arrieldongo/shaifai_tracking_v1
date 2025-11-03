@@ -20,6 +20,12 @@ type PublicOrder = {
   assigned?: boolean;
   priority?: number;
   updatedAt: number;
+  // Infos supplémentaires
+  customerName?: string;
+  description?: string;
+  price?: number;
+  paymentMethod?: 'cash' | 'wave' | 'orange_money' | 'mtn_money' | 'moov_money';
+  notes?: string;
 };
 
 const STEP_COLORS = {
@@ -121,7 +127,7 @@ export default function TrackOrderPage() {
     const list = queue;
     return list.map<Step>((o) => ({
       id: o.id,
-      label: o.clientCode ? `${o.clientCode}${o.roomNumber ? ` • Ch. ${o.roomNumber}` : ''}` : `Commande ${o.id}`,
+      label: `${o.customerName || o.clientCode || `Commande ${o.id}`}${o.roomNumber ? ` • Ch. ${o.roomNumber}` : ''}`,
       image: asset(o.zone, 'batiment'),
       color: STEP_COLORS.batiment,
       status: 'upcoming',
@@ -156,9 +162,7 @@ export default function TrackOrderPage() {
       ) : (
         <>
           <h1 className="text-xl font-bold mb-2">Suivi commande</h1>
-          <div className="text-sm text-slate-700 mb-2">ID: {order.id}</div>
-          {order.clientCode && <div className="text-sm text-slate-700 mb-1">Code client: {order.clientCode}</div>}
-          <div className="text-sm text-slate-700 mb-1">Zone: {order.zone.toUpperCase()}</div>
+          <div className="text-sm text-slate-700 mb-1">Vous êtes au: {order.zone.toUpperCase()}</div>
           <div className="text-sm text-slate-700 mb-3">Chambre: {order.roomNumber ?? '—'}</div>
           <div>
             {order.status === 'done' ? (
@@ -170,7 +174,6 @@ export default function TrackOrderPage() {
           <div className="mt-2 text-xs text-slate-500">Dernière mise à jour: <FormatDate ts={order.updatedAt} /></div>
 
           <div className="mt-6">
-            <h2 className="font-semibold mb-2">Itinéraire</h2>
             <TimelineZone
               zone={order.zone}
               fixedSteps={fixedSteps(order.zone)}

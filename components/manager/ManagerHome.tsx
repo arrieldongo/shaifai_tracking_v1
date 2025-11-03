@@ -39,6 +39,7 @@ export default function ManagerHome({ courier, onFlash }: { courier: Courier | n
     defaultValues: {
       clientCode: '',
       zone: 'sud',
+      
       roomNumber: '',
       phone: '',
       customerName: '',
@@ -63,6 +64,12 @@ export default function ManagerHome({ courier, onFlash }: { courier: Courier | n
         zone: values.zone,
         roomNumber: values.roomNumber.trim(),
         phone: values.phone.trim(),
+        // Extras
+        customerName: values.customerName?.trim() || undefined,
+        description: values.description?.trim() || undefined,
+        price: priceNumber,
+        paymentMethod: values.paymentMethod || undefined,
+        notes: values.notes?.trim() || undefined,
       });
 
       reset({

@@ -56,10 +56,13 @@ function ManagerPageInner() {
       fallback={<div className="p-6 text-center text-red-600">Accès refusé — rôle <b>manager</b> requis.</div>}
     >
       <main className="max-w-5xl mx-auto">
+        <h1 className="text-center text-2xl font-bold my-4">
+          {restaurant?.name}
+        </h1>
+
         <HeaderTabs
           leftIcon="home"
           onLeftClick={openCreate}
-          title={restaurant?.name}
           tabs={[
             { key: "commandes", label: "Commandes" },
             { key: "suivre", label: "Suivre" },
